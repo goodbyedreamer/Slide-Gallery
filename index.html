@@ -342,10 +342,12 @@
 
 <script>
 const TREE = [
-  { id:"ir", label:"IR", children:[
-    { id:"ir-kessan", label:"決算資料", children:[
-      { id:"ir-kessan-sales", label:"売上推移", leaves:["前年比","セグメント別","地域別"] },
-      { id:"ir-kessan-market", label:"市場予測", leaves:["国内市場","海外市場","成長率予測"] }
+  { id:"contents", label:"内容", children:[
+    { id:"contents-intro", label:"イントロダクション", children:[
+      { id:"contents-intro-cover", label:"表紙"},
+      { id:"contents-intro-index", label:"目次" },
+      { id:"contents-intro-preface", label:"はじめに" },
+      { id:"contents-intro-preface", label:"会社概要" }
     ]},
     { id:"ir-integrated", label:"統合報告書", leaves:["サステナビリティ","マテリアリティ","ESGデータ"] },
     { id:"ir-strategy", label:"中期経営計画", leaves:["成長戦略","KPI","投資計画"] }
