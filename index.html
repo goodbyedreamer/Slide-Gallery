@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Gallery</title>
+<style>
+  :root {
+    --bg:       #F7F7F6;
+    --surface:  #FFFFFF;
+    --border:   #E4E4E0;
+    --text:     #1A1A18;
+    --muted:    #8A8A82;
+    --tag-bg:   #EFEFEC;
+    --tag-hover:#1A1A18;
+    --sidebar-w: 240px;
+    --font-sans: 'Inter', 'Hiragino Sans', 'Meiryo', sans-serif;
+    --danger:   #E53935;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+
+  #app { display: flex; min-height: 100vh; }
+
+  #sidebar {
+    width: var(--sidebar-w); flex-shrink: 0; background: var(--surface);
+    border-right: 1px solid var(--border); position: sticky; top: 0;
+    height: 100vh; overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
+  .sidebar-logo { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .sidebar-logo span { display: block; font-size: 11px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .show-all-btn {
+    display: block; margin: 12px 20px 0; padding: 6px 0; font-size: 12px; color: var(--muted);
+    cursor: pointer; border: none; background: none; text-align: left; font-family: var(--font-sans); transition: color .15s;
+  }
+  .show-all-btn:hover { color: var(--text); }
+  .tree { padding: 12px 0 12px; flex: 1; }
+  .tree-category { margin-bottom: 4px; }
+  .tree-cat-label {
+    display: flex; align-items: center; gap: 6px; padding: 7px 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; user-select: none; transition: color .15s;
+  }
+  .tree-cat-label:hover { color: var(--text); }
+  .tree-arrow { width: 12px; height: 12px; transition: transform .2s; flex-shrink: 0; }
+  .tree-arrow.open { transform: rotate(90deg); }
+  .tree-sub { display: none; }
+  .tree-sub.open { display: block; }
+  .tree-parent-label {
+    display: flex; align-items: center; gap: 6px; padding: 5px 20px 5px 32px;
+    font-size: 13px; cursor: pointer; user-select: none; transition: background .15s;
+  }
+  .tree-parent-label:hover { background: var(--tag-bg); }
+  .tree-parent-arrow { width: 10px; height: 10px; transition: transform .2s; flex-shrink: 0; color: var(--muted); }
+  .tree-parent-arrow.open { transform: rotate(90deg); }
+  .tree-leaves { display: none; }
+  .tree-leaves.open { display: block; }
+  .tree-leaf {
+    display: block; padding: 4px 20px 4px 50px; font-size: 12px; color: var(--muted);
+    cursor: pointer; transition: color .15s, background .15s;
+  }
+  .tree-leaf:hover { color: var(--text); background: var(--tag-bg); }
+  .tree-leaf.active { color: var(--text); font-weight: 600; }
+
+  .sidebar-admin-btn {
+    margin: 0 20px 20px; padding: 9px 0; font-size: 12px; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 6px; background: var(--surface);
+    cursor: pointer; text-align: center; font-family: var(--font-sans); transition: color .15s, background .15s;
+  }
+  .sidebar-admin-btn:hover { color: var(--text); background: var(--tag-bg); }
+
+  #main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .main-header { padding: 24px 32px 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+  .main-title { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+  .main-count { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+  .search-wrap { position: relative; }
+  #search {
+    border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px 7px 32px;
+    font-size: 13px; font-family: var(--font-sans); background: var(--surface);
+    color: var(--text); width: 200px; outline: none; transition: border-color .15s;
+  }
+  #search:focus { border-color: var(--text); }
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+
+  #grid { padding: 20px 32px 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); transform: translateY(-2px); }
+  .card-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--tag-bg); }
+  .card-body { padding: 10px 12px 12px; }
+  .card-company { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .tag {
+    display: inline-block; background: var(--tag-bg); color: var(--muted); font-size: 10px;
+    padding: 2px 7px; border-radius: 100px; cursor: pointer; transition: background .15s, color .15s;
+  }
+  .tag:hover { background: var(--tag-hover); color: #fff; }
+  .empty { grid-column: 1/-1; text-align: center; padding: 80px 0; color: var(--muted); font-size: 14px; }
+
+  #modal-bg {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 100;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  #modal-bg.open { display: flex; }
+  #modal {
+    background: var(--surface); border-radius: 12px; max-width: 860px; width: 100%;
+    max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 280px; position: relative;
+  }
+  #modal-img-wrap { background: #000; border-radius: 12px 0 0 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  #modal-img { width: 100%; height: 100%; object-fit: contain; display: block; max-height: 70vh; }
+  #modal-info { padding: 28px 24px; display: flex; flex-direction: column; gap: 16px; border-left: 1px solid var(--border); }
+  #modal-company { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  #modal-url a {
+    font-size: 12px; color: var(--muted); word-break: break-all; text-decoration: none;
+    border-bottom: 1px solid var(--border); transition: color .15s, border-color .15s;
+  }
+  #modal-url a:hover { color: var(--text); border-color: var(--text); }
+  .modal-section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  #modal-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  #modal-close {
+    position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border: none;
+    background: var(--tag-bg); border-radius: 50%; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; color: var(--muted); font-size: 16px; transition: background .15s, color .15s;
+  }
+  #modal-close:hover { background: var(--border); color: var(--text); }
+
+  #admin-bg {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  #admin-bg.open { display: flex; }
+  #admin-panel {
+    background: var(--surface); border-radius: 12px; max-width: 720px; width: 100%;
+    max-height: 92vh; overflow-y: auto; padding: 28px 32px; position: relative;
+  }
+  #admin-panel h2 { font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+  .admin-close {
+    position: absolute; top: 16px; right: 16px; width: 28px; height: 28px; border: none;
+    background: var(--tag-bg); border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--muted);
+    display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s;
+  }
+  .admin-close:hover { background: var(--border); color: var(--text); }
+
+  .admin-tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .admin-tab {
+    padding: 8px 4px; margin-right: 24px; font-size: 13px; font-weight: 500; color: var(--muted);
+    cursor: pointer; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s;
+  }
+  .admin-tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 600; }
+  .admin-tab-content { display: none; }
+  .admin-tab-content.active { display: block; }
+
+  .field-group { margin-bottom: 18px; }
+  .field-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: block; }
+  .field-input, .field-textarea {
+    width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px;
+    font-size: 13px; font-family: var(--font-sans); background: var(--bg); color: var(--text); outline: none;
+  }
+  .field-input:focus, .field-textarea:focus { border-color: var(--text); background: var(--surface); }
+  .field-hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .img-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .img-input-row .field-input { flex: 1; }
+  .img-toggle-btn {
+    padding: 9px 14px; font-size: 12px; border: 1px solid var(--border); border-radius: 6px;
+    background: var(--surface); color: var(--muted); cursor: pointer; white-space: nowrap; transition: all .15s;
+  }
+  .img-toggle-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+  .dropzone {
+    border: 2px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center;
+    font-size: 12px; color: var(--muted); cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  .dropzone.dragover { border-color: var(--text); background: var(--tag-bg); }
+  .dropzone input { display: none; }
+
+  .img-preview { margin-top: 10px; max-width: 100%; max-height: 160px; border-radius: 6px; display: none; }
+  .img-preview.show { display: block; }
+
+  .tag-builder { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; min-height: 28px; }
+  .tag-chip {
+    display: inline-flex; align-items: center; gap: 6px; background: var(--tag-bg); color: var(--text);
+    font-size: 12px; padding: 4px 6px 4px 10px; border-radius: 100px;
+  }
+  .tag-chip button { border: none; background: none; cursor: pointer; color: var(--muted); font-size: 13px; line-height: 1; padding: 2px; }
+  .tag-chip button:hover { color: var(--danger); }
+  .tag-picker { border: 1px solid var(--border); border-radius: 6px; padding: 10px; max-height: 220px; overflow-y: auto; }
+  .tag-picker-leaf { display: inline-block; margin: 2px; padding: 4px 10px; font-size: 12px; border-radius: 100px; background: var(--tag-bg); color: var(--muted); cursor: pointer; transition: all .15s; }
+  .tag-picker-leaf:hover { background: var(--border); }
+  .tag-picker-leaf.selected { background: var(--text); color: #fff; }
+  .tag-picker-group-label { font-size: 11px; font-weight: 600; color: var(--muted); margin: 8px 0 2px; text-transform: uppercase; letter-spacing: .04em; }
+  .tag-picker-group-label:first-child { margin-top: 0; }
+
+  .admin-actions { display: flex; gap: 10px; margin-top: 24px; align-items: center; }
+  .btn { padding: 9px 18px; font-size: 13px; font-weight: 500; border-radius: 6px; cursor: pointer; border: none; font-family: var(--font-sans); transition: opacity .15s; }
+  .btn:hover { opacity: .85; }
+  .btn-primary { background: var(--text); color: #fff; }
+  .btn-secondary { background: var(--tag-bg); color: var(--text); }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .form-msg { font-size: 12px; color: var(--muted); }
+
+  .slide-list-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 8px;
+  }
+  .slide-list-item img { width: 64px; height: 36px; object-fit: cover; border-radius: 4px; background: var(--tag-bg); flex-shrink: 0; }
+  .slide-list-info { flex: 1; min-width: 0; }
+  .slide-list-company { font-size: 13px; font-weight: 600; }
+  .slide-list-tags { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .slide-list-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .icon-btn {
+    width: 28px; height: 28px; border: none; background: var(--tag-bg); border-radius: 6px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; color: var(--muted); transition: background .15s, color .15s;
+  }
+  .icon-btn:hover { background: var(--border); color: var(--text); }
+  .icon-btn.danger:hover { background: #FCE4E4; color: var(--danger); }
+
+  .export-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 16px; }
+  .export-box p { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">Slide Gallery<span>Private Collection</span></div>
+    </div>
+    <button class="show-all-btn" onclick="filterByTag(null)">すべて表示</button>
+    <div class="tree" id="tree"></div>
+    <button class="sidebar-admin-btn" onclick="openAdmin('add')">⚙ 管理パネル</button>
+  </nav>
+
+  <div id="main">
+    <div class="main-header">
+      <div>
+        <div class="main-title" id="main-title">すべて</div>
+        <div class="main-count" id="main-count"></div>
+      </div>
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="search" type="text" placeholder="企業名・タグで検索…">
+      </div>
+    </div>
+    <div id="grid"></div>
+  </div>
+</div>
+
+<div id="modal-bg">
+  <div id="modal">
+    <div id="modal-img-wrap"><img id="modal-img" src="" alt=""></div>
+    <div id="modal-info">
+      <button id="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-company"></div>
+      <div id="modal-url"></div>
+      <div>
+        <div class="modal-section-label">タグ</div>
+        <div id="modal-tags"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="admin-bg">
+  <div id="admin-panel">
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+    <h2>管理パネル</h2>
+    <div class="admin-tabs">
+      <div class="admin-tab active" data-tab="add" onclick="switchAdminTab('add')">追加 / 編集</div>
+      <div class="admin-tab" data-tab="list" onclick="switchAdminTab('list')">一覧管理</div>
+      <div class="admin-tab" data-tab="export" onclick="switchAdminTab('export')">書き出し</div>
+    </div>
+
+    <div class="admin-tab-content active" id="tab-add">
+      <input type="hidden" id="edit-id">
+
+      <div class="field-group">
+        <label class="field-label">企業名</label>
+        <input class="field-input" id="f-company" type="text" placeholder="例：Acme Corporation">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">リンク先URL</label>
+        <input class="field-input" id="f-url" type="text" placeholder="https://example.com">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">スライド画像</label>
+        <div class="img-input-row">
+          <button class="img-toggle-btn active" id="img-mode-url" onclick="setImgMode('url')">URL入力</button>
+          <button class="img-toggle-btn" id="img-mode-file" onclick="setImgMode('file')">ファイルD&D</button>
+        </div>
+        <input class="field-input" id="f-image-url" type="text" placeholder="https://i.imgur.com/xxxxx.jpg">
+        <div class="dropzone" id="dropzone" style="display:none;">
+          画像をドラッグ＆ドロップ、またはクリックして選択
+          <input type="file" id="file-input" accept="image/*">
+        </div>
+        <img class="img-preview" id="img-preview">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">タグ（最下層カテゴリから選択）</label>
+        <div class="tag-builder" id="tag-builder"></div>
+        <div class="tag-picker" id="tag-picker"></div>
+      </div>
+
+      <div class="admin-actions">
+        <button class="btn btn-primary" onclick="saveSlide()">保存する</button>
+        <button class="btn btn-secondary" onclick="resetForm()">クリア</button>
+        <span class="form-msg" id="form-msg"></span>
+      </div>
+    </div>
+
+    <div class="admin-tab-content" id="tab-list">
+      <div id="admin-slide-list"></div>
+    </div>
+
+    <div class="admin-tab-content" id="tab-export">
+      <div class="export-box">
+        <p>現在のスライドデータをすべて含んだ、単体で動くHTMLファイルをダウンロードします。<br>ダウンロード後、GitHubの <code>slide-gallery.html</code> を置き換えてアップロードしてください。</p>
+        <button class="btn btn-primary" onclick="exportHTML()">完成版HTMLをダウンロード</button>
+      </div>
+      <div class="export-box">
+        <p>データだけをJSON形式でバックアップしたい場合はこちら（任意）。</p>
+        <button class="btn btn-secondary" onclick="exportJSON()">JSONをダウンロード</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TREE = [
+  { id:"ir", label:"IR", children:[
+    { id:"ir-kessan", label:"決算資料", leaves:["売上推移","市場予測","セグメント分析","コスト構造"] },
+    { id:"ir-integrated", label:"統合報告書", leaves:["サステナビリティ","マテリアリティ","ESGデータ"] },
+    { id:"ir-strategy", label:"中期経営計画", leaves:["成長戦略","KPI","投資計画"] }
+  ]},
+  { id:"pitch", label:"Pitch Deck", children:[
+    { id:"pitch-problem", label:"Problem / Solution", leaves:["課題定義","ソリューション概要","競合比較"] },
+    { id:"pitch-market", label:"Market", leaves:["TAM/SAM/SOM","市場成長率","ターゲット顧客"] },
+    { id:"pitch-team", label:"Team", leaves:["創業者プロフィール","組織図","アドバイザー"] }
+  ]},
+  { id:"design", label:"デザイン表現", children:[
+    { id:"design-chart", label:"チャート・グラフ", leaves:["折れ線グラフ","棒グラフ","サンキー図","ヒートマップ"] },
+    { id:"design-layout", label:"レイアウト", leaves:["大見出し型","左右分割","グリッド型","フルスクリーン"] },
+    { id:"design-color", label:"カラー", leaves:["モノクロ","ダーク背景","グラデーション","パステル"] }
+  ]},
+  { id:"company", label:"業種", children:[
+    { id:"company-tech", label:"テック", leaves:["SaaS","AI/ML","フィンテック","ヘルステック"] },
+    { id:"company-mfg", label:"製造・素材", leaves:["自動車","化学","精密機器"] },
+    { id:"company-consumer", label:"消費財・小売", leaves:["D2C","EC","食品・飲料"] }
+  ]}
+];
+
+let SLIDES = [
+  { id:1, company:"Acme Corporation", url:"https://example.com/acme-ir", image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", tags:["売上推移","市場予測","折れ線グラフ","SaaS"] },
+  { id:2, company:"Bright Ventures", url:"https://example.com/bright", image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80", tags:["課題定義","TAM/SAM/SOM","ダーク背景","AI/ML"] },
+  { id:3, company:"Green Field Foods", url:"https://example.com/greenfield", image:"https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=600&q=80", tags:["サステナビリティ","ESGデータ","グリッド型","食品・飲料"] },
+  { id:4, company:"Nova Motors", url:"https://example.com/nova", image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", tags:["成長戦略","KPI","棒グラフ","自動車"] }
+];
+
+let nextId = Math.max(0, ...SLIDES.map(s=>s.id)) + 1;
+
+let activeTag = null;
+let searchQuery = "";
+let pendingTags = [];
+let imgMode = "url";
+
+function buildTree() {
+  const container = document.getElementById("tree");
+  container.innerHTML = "";
+  TREE.forEach(cat => {
+    const catEl = document.createElement("div");
+    catEl.className = "tree-category";
+    const catLabel = document.createElement("div");
+    catLabel.className = "tree-cat-label";
+    catLabel.innerHTML = `<svg class="tree-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>${cat.label}`;
+    catLabel.addEventListener("click", () => {
+      catEl.querySelector(".tree-sub").classList.toggle("open");
+      catLabel.querySelector(".tree-arrow").classList.toggle("open");
+    });
+    const sub = document.createElement("div");
+    sub.className = "tree-sub";
+    cat.children.forEach(parent => {
+      const parentLabel = document.createElement("div");
+      parentLabel.className = "tree-parent-label";
+      parentLabel.innerHTML = `<svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>${parent.label}`;
+      parentLabel.addEventListener("click", () => {
+        parentLabel.nextElementSibling.classList.toggle("open");
+        parentLabel.querySelector(".tree-parent-arrow").classList.toggle("open");
+      });
+      const leaves = document.createElement("div");
+      leaves.className = "tree-leaves";
+      parent.leaves.forEach(leaf => {
+        const leafEl = document.createElement("div");
+        leafEl.className = "tree-leaf";
+        leafEl.textContent = leaf;
+        leafEl.dataset.tag = leaf;
+        leafEl.addEventListener("click", () => filterByTag(leaf));
+        leaves.appendChild(leafEl);
+      });
+      sub.appendChild(parentLabel);
+      sub.appendChild(leaves);
+    });
+    catEl.appendChild(catLabel);
+    catEl.appendChild(sub);
+    container.appendChild(catEl);
+  });
+}
+
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  const title = document.getElementById("main-title");
+  const count = document.getElementById("main-count");
+  grid.innerHTML = "";
+
+  const filtered = SLIDES.filter(s => {
+    const matchTag = !activeTag || s.tags.includes(activeTag);
+    const q = searchQuery.toLowerCase();
+    const matchSearch = !q || s.company.toLowerCase().includes(q) || s.tags.some(t => t.toLowerCase().includes(q));
+    return matchTag && matchSearch;
+  });
+
+  title.textContent = activeTag || "すべて";
+  count.textContent = `${filtered.length} 件`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty">該当するスライドがありません</div>`;
+    return;
+  }
+
+  filtered.forEach(slide => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img class="card-thumb" src="${slide.image}" alt="${slide.company}" loading="lazy">
+      <div class="card-body">
+        <div class="card-company">${slide.company}</div>
+        <div class="card-tags">${slide.tags.map(t => `<span class="tag" data-tag="${t}">${t}</span>`).join("")}</div>
+      </div>`;
+    card.querySelector(".card-thumb").addEventListener("click", () => openModal(slide));
+    card.querySelector(".card-company").addEventListener("click", () => openModal(slide));
+    card.querySelectorAll(".tag").forEach(tagEl => {
+      tagEl.addEventListener("click", e => { e.stopPropagation(); filterByTag(tagEl.dataset.tag); });
+    });
+    grid.appendChild(card);
+  });
+}
+
+function filterByTag(tag) {
+  activeTag = tag;
+  document.querySelectorAll(".tree-leaf").forEach(el => el.classList.toggle("active", el.dataset.tag === tag));
+  renderGrid();
+}
+
+function openModal(slide) {
+  document.getElementById("modal-img").src = slide.image;
+  document.getElementById("modal-img").alt = slide.company;
+  document.getElementById("modal-company").textContent = slide.company;
+  document.getElementById("modal-url").innerHTML = `<a href="${slide.url}" target="_blank" rel="noopener">${slide.url} ↗</a>`;
+  document.getElementById("modal-tags").innerHTML = slide.tags.map(t =>
+    `<span class="tag" style="font-size:12px;padding:4px 10px;" data-tag="${t}">${t}</span>`).join("");
+  document.querySelectorAll("#modal-tags .tag").forEach(el => {
+    el.addEventListener("click", () => { closeModal(); filterByTag(el.dataset.tag); });
+  });
+  document.getElementById("modal-bg").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeModal() {
+  document.getElementById("modal-bg").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.getElementById("modal-bg").addEventListener("click", e => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeModal(); closeAdmin(); } });
+
+document.getElementById("search").addEventListener("input", e => { searchQuery = e.target.value; renderGrid(); });
+
+function openAdmin(tab) {
+  document.getElementById("admin-bg").classList.add("open");
+  document.body.style.overflow = "hidden";
+  switchAdminTab(tab || "add");
+  buildTagPicker();
+  renderAdminList();
+}
+function closeAdmin() {
+  document.getElementById("admin-bg").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.getElementById("admin-bg").addEventListener("click", e => { if (e.target === e.currentTarget) closeAdmin(); });
+
+function switchAdminTab(tab) {
+  document.querySelectorAll(".admin-tab").forEach(el => el.classList.toggle("active", el.dataset.tab === tab));
+  document.querySelectorAll(".admin-tab-content").forEach(el => el.classList.toggle("active", el.id === "tab-" + tab));
+  if (tab === "list") renderAdminList();
+}
+
+function setImgMode(mode) {
+  imgMode = mode;
+  document.getElementById("img-mode-url").classList.toggle("active", mode === "url");
+  document.getElementById("img-mode-file").classList.toggle("active", mode === "file");
+  document.getElementById("f-image-url").style.display = mode === "url" ? "block" : "none";
+  document.getElementById("dropzone").style.display = mode === "file" ? "block" : "none";
+}
+
+let currentImageData = "";
+
+document.getElementById("f-image-url").addEventListener("input", e => {
+  currentImageData = e.target.value.trim();
+  updateImgPreview();
+});
+
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("file-input");
+dropzone.addEventListener("click", () => fileInput.click());
+dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
+dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
+dropzone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropzone.classList.remove("dragover");
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+fileInput.addEventListener("change", e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+
+function handleFile(file) {
+  if (!file.type.startsWith("image/")) { alert("画像ファイルを選択してください"); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    currentImageData = e.target.result;
+    updateImgPreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateImgPreview() {
+  const preview = document.getElementById("img-preview");
+  if (currentImageData) {
+    preview.src = currentImageData;
+    preview.classList.add("show");
+  } else {
+    preview.classList.remove("show");
+  }
+}
+
+function buildTagPicker() {
+  const picker = document.getElementById("tag-picker");
+  picker.innerHTML = "";
+  TREE.forEach(cat => {
+    cat.children.forEach(parent => {
+      const label = document.createElement("div");
+      label.className = "tag-picker-group-label";
+      label.textContent = `${cat.label} ／ ${parent.label}`;
+      picker.appendChild(label);
+      const row = document.createElement("div");
+      parent.leaves.forEach(leaf => {
+        const chip = document.createElement("span");
+        chip.className = "tag-picker-leaf";
+        chip.textContent = leaf;
+        chip.dataset.tag = leaf;
+        chip.addEventListener("click", () => toggleTagSelection(leaf));
+        row.appendChild(chip);
+      });
+      picker.appendChild(row);
+    });
+  });
+}
+
+function toggleTagSelection(tag) {
+  const idx = pendingTags.indexOf(tag);
+  if (idx >= 0) pendingTags.splice(idx, 1);
+  else pendingTags.push(tag);
+  renderTagBuilder();
+  syncTagPickerHighlight();
+}
+
+function renderTagBuilder() {
+  const builder = document.getElementById("tag-builder");
+  builder.innerHTML = pendingTags.map(t =>
+    `<span class="tag-chip">${t}<button onclick="toggleTagSelection('${t.replace(/'/g,"\\'")}')">✕</button></span>`
+  ).join("") || `<span style="font-size:12px;color:var(--muted);">下のリストからタグを選択してください</span>`;
+}
+
+function syncTagPickerHighlight() {
+  document.querySelectorAll(".tag-picker-leaf").forEach(el => {
+    el.classList.toggle("selected", pendingTags.includes(el.dataset.tag));
+  });
+}
+
+function resetForm() {
+  document.getElementById("edit-id").value = "";
+  document.getElementById("f-company").value = "";
+  document.getElementById("f-url").value = "";
+  document.getElementById("f-image-url").value = "";
+  currentImageData = "";
+  updateImgPreview();
+  pendingTags = [];
+  renderTagBuilder();
+  syncTagPickerHighlight();
+  setImgMode("url");
+  document.getElementById("form-msg").textContent = "";
+}
+
+function saveSlide() {
+  const company = document.getElementById("f-company").value.trim();
+  const url = document.getElementById("f-url").value.trim();
+  const msg = document.getElementById("form-msg");
+
+  if (!company) { msg.textContent = "企業名を入力してください"; msg.style.color = "var(--danger)"; return; }
+  if (!currentImageData) { msg.textContent = "画像を指定してください"; msg.style.color = "var(--danger)"; return; }
+  if (pendingTags.length === 0) { msg.textContent = "タグを1つ以上選択してください"; msg.style.color = "var(--danger)"; return; }
+
+  const editId = document.getElementById("edit-id").value;
+
+  if (editId) {
+    const slide = SLIDES.find(s => s.id === Number(editId));
+    if (slide) {
+      slide.company = company;
+      slide.url = url;
+      slide.image = currentImageData;
+      slide.tags = [...pendingTags];
+    }
+    msg.style.color = "var(--text)";
+    msg.textContent = "更新しました ✓";
+  } else {
+    SLIDES.push({ id: nextId++, company, url, image: currentImageData, tags: [...pendingTags] });
+    msg.style.color = "var(--text)";
+    msg.textContent = "追加しました ✓";
+  }
+
+  renderGrid();
+  renderAdminList();
+  resetForm();
+}
+
+function editSlide(id) {
+  const slide = SLIDES.find(s => s.id === id);
+  if (!slide) return;
+  switchAdminTab("add");
+  document.getElementById("edit-id").value = slide.id;
+  document.getElementById("f-company").value = slide.company;
+  document.getElementById("f-url").value = slide.url;
+  currentImageData = slide.image;
+  if (slide.image.startsWith("data:")) {
+    setImgMode("file");
+  } else {
+    setImgMode("url");
+    document.getElementById("f-image-url").value = slide.image;
+  }
+  updateImgPreview();
+  pendingTags = [...slide.tags];
+  renderTagBuilder();
+  syncTagPickerHighlight();
+  document.getElementById("form-msg").textContent = "";
+}
+
+function deleteSlide(id) {
+  if (!confirm("このスライドを削除しますか？")) return;
+  SLIDES = SLIDES.filter(s => s.id !== id);
+  renderGrid();
+  renderAdminList();
+}
+
+function renderAdminList() {
+  const list = document.getElementById("admin-slide-list");
+  if (SLIDES.length === 0) {
+    list.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:13px;padding:40px 0;">スライドがまだありません</div>`;
+    return;
+  }
+  list.innerHTML = SLIDES.map(s => `
+    <div class="slide-list-item">
+      <img src="${s.image}" alt="">
+      <div class="slide-list-info">
+        <div class="slide-list-company">${s.company}</div>
+        <div class="slide-list-tags">${s.tags.join(" / ")}</div>
+      </div>
+      <div class="slide-list-actions">
+        <button class="icon-btn" onclick="editSlide(${s.id})" title="編集">✎</button>
+        <button class="icon-btn danger" onclick="deleteSlide(${s.id})" title="削除">🗑</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(SLIDES, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "slides-backup.json";
+  a.click();
+}
+
+function exportHTML() {
+  const fullHTML = document.documentElement.outerHTML;
+  const serialized = "let SLIDES = " + JSON.stringify(SLIDES) + ";";
+  const htmlWithData = fullHTML.replace(
+    /let SLIDES = \[[\s\S]*?\];/,
+    serialized
+  );
+  const finalHTML = "<!DOCTYPE html>\n" + htmlWithData;
+  const blob = new Blob([finalHTML], { type: "text/html" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "slide-gallery.html";
+  a.click();
+}
+
+buildTree();
+renderGrid();
+renderTagBuilder();
+</script>
+</body>
+</html>
