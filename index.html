@@ -63,6 +63,18 @@
   .tree-leaf:hover { color: var(--text); background: var(--tag-bg); }
   .tree-leaf.active { color: var(--text); font-weight: 600; }
 
+  /* 4階層目（孫カテゴリ）用 */
+  .tree-grandchild-label {
+    display: flex; align-items: center; gap: 6px; padding: 4px 20px 4px 50px;
+    font-size: 12px; color: var(--text); cursor: pointer; user-select: none; transition: background .15s;
+  }
+  .tree-grandchild-label:hover { background: var(--tag-bg); }
+  .tree-grandchild-arrow { width: 9px; height: 9px; transition: transform .2s; flex-shrink: 0; color: var(--muted); }
+  .tree-grandchild-arrow.open { transform: rotate(90deg); }
+  .tree-grandchild-leaves { display: none; }
+  .tree-grandchild-leaves.open { display: block; }
+  .tree-grandchild-leaves .tree-leaf { padding-left: 68px; }
+
   .sidebar-admin-btn {
     margin: 0 20px 20px; padding: 9px 0; font-size: 12px; color: var(--muted);
     border: 1px solid var(--border); border-radius: 6px; background: var(--surface);
@@ -331,7 +343,10 @@
 <script>
 const TREE = [
   { id:"ir", label:"IR", children:[
-    { id:"ir-kessan", label:"決算資料", leaves:["売上推移","市場予測","セグメント分析","コスト構造"] },
+    { id:"ir-kessan", label:"決算資料", children:[
+      { id:"ir-kessan-sales", label:"売上推移", leaves:["前年比","セグメント別","地域別"] },
+      { id:"ir-kessan-market", label:"市場予測", leaves:["国内市場","海外市場","成長率予測"] }
+    ]},
     { id:"ir-integrated", label:"統合報告書", leaves:["サステナビリティ","マテリアリティ","ESGデータ"] },
     { id:"ir-strategy", label:"中期経営計画", leaves:["成長戦略","KPI","投資計画"] }
   ]},
@@ -391,14 +406,41 @@ function buildTree() {
       });
       const leaves = document.createElement("div");
       leaves.className = "tree-leaves";
-      parent.leaves.forEach(leaf => {
-        const leafEl = document.createElement("div");
-        leafEl.className = "tree-leaf";
-        leafEl.textContent = leaf;
-        leafEl.dataset.tag = leaf;
-        leafEl.addEventListener("click", () => filterByTag(leaf));
-        leaves.appendChild(leafEl);
-      });
+
+      if (parent.children) {
+        // 4階層目がある場合：孫カテゴリを描画
+        parent.children.forEach(grandchild => {
+          const gLabel = document.createElement("div");
+          gLabel.className = "tree-grandchild-label";
+          gLabel.innerHTML = `<svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>${grandchild.label}`;
+          gLabel.addEventListener("click", () => {
+            gLabel.nextElementSibling.classList.toggle("open");
+            gLabel.querySelector(".tree-grandchild-arrow").classList.toggle("open");
+          });
+          const gLeaves = document.createElement("div");
+          gLeaves.className = "tree-grandchild-leaves";
+          grandchild.leaves.forEach(leaf => {
+            const leafEl = document.createElement("div");
+            leafEl.className = "tree-leaf";
+            leafEl.textContent = leaf;
+            leafEl.dataset.tag = leaf;
+            leafEl.addEventListener("click", () => filterByTag(leaf));
+            gLeaves.appendChild(leafEl);
+          });
+          leaves.appendChild(gLabel);
+          leaves.appendChild(gLeaves);
+        });
+      } else {
+        // 通常の3階層（最下層タグ）
+        parent.leaves.forEach(leaf => {
+          const leafEl = document.createElement("div");
+          leafEl.className = "tree-leaf";
+          leafEl.textContent = leaf;
+          leafEl.dataset.tag = leaf;
+          leafEl.addEventListener("click", () => filterByTag(leaf));
+          leaves.appendChild(leafEl);
+        });
+      }
       sub.appendChild(parentLabel);
       sub.appendChild(leaves);
     });
@@ -547,20 +589,40 @@ function buildTagPicker() {
   picker.innerHTML = "";
   TREE.forEach(cat => {
     cat.children.forEach(parent => {
-      const label = document.createElement("div");
-      label.className = "tag-picker-group-label";
-      label.textContent = `${cat.label} ／ ${parent.label}`;
-      picker.appendChild(label);
-      const row = document.createElement("div");
-      parent.leaves.forEach(leaf => {
-        const chip = document.createElement("span");
-        chip.className = "tag-picker-leaf";
-        chip.textContent = leaf;
-        chip.dataset.tag = leaf;
-        chip.addEventListener("click", () => toggleTagSelection(leaf));
-        row.appendChild(chip);
-      });
-      picker.appendChild(row);
+      if (parent.children) {
+        // 4階層目がある場合：孫カテゴリごとにグループ表示
+        parent.children.forEach(grandchild => {
+          const label = document.createElement("div");
+          label.className = "tag-picker-group-label";
+          label.textContent = `${cat.label} ／ ${parent.label} ／ ${grandchild.label}`;
+          picker.appendChild(label);
+          const row = document.createElement("div");
+          grandchild.leaves.forEach(leaf => {
+            const chip = document.createElement("span");
+            chip.className = "tag-picker-leaf";
+            chip.textContent = leaf;
+            chip.dataset.tag = leaf;
+            chip.addEventListener("click", () => toggleTagSelection(leaf));
+            row.appendChild(chip);
+          });
+          picker.appendChild(row);
+        });
+      } else {
+        const label = document.createElement("div");
+        label.className = "tag-picker-group-label";
+        label.textContent = `${cat.label} ／ ${parent.label}`;
+        picker.appendChild(label);
+        const row = document.createElement("div");
+        parent.leaves.forEach(leaf => {
+          const chip = document.createElement("span");
+          chip.className = "tag-picker-leaf";
+          chip.textContent = leaf;
+          chip.dataset.tag = leaf;
+          chip.addEventListener("click", () => toggleTagSelection(leaf));
+          row.appendChild(chip);
+        });
+        picker.appendChild(row);
+      }
     });
   });
 }
