@@ -342,38 +342,67 @@
 
 <script>
 const TREE = [
-  { id:"contents", label:"内容", children:[
-    { id:"contents-intro", label:"イントロダクション", children:[
-      { id:"contents-intro-cover", label:"表紙"},
-      { id:"contents-intro-index", label:"目次" },
-      { id:"contents-intro-preface", label:"はじめに" },
-      { id:"contents-intro-preface", label:"会社概要" }
-    ]},
-    { id:"ir-integrated", label:"統合報告書", leaves:["サステナビリティ","マテリアリティ","ESGデータ"] },
-    { id:"ir-strategy", label:"中期経営計画", leaves:["成長戦略","KPI","投資計画"] }
+  { id:"contens", label:"内容", children:[
+    { id:"contens-general", label:"共通",  children:[
+      { id:"contens-general-intro", label:"付けもの", leaves:["表紙","目次","はじめに","中表紙","おわりに"] },
+      { id:"contens-general-company", label:"会社紹介", leaves:["会社概要","沿革","役員"] },
+      { id:"contens-general-intro", label:"経営理念", leaves:["VMM","指針"] },
+      { id:"contens-general-business", label:"事業概要", leaves:["概念図","事業構想イメージ","ビジネスモデル"] },
+      { id:"contens-general-schedule", label:"スケジュール", leaves:["ロードマップ","ガントチャート","ステップ","フロー"] }
+    ]},     
+    { id:"contens-propo", label:"提案", children:[
+      { id:"contens-propo-service", label:"サービス", leaves:["サービス詳細","特徴・ポイント","お客様の声"] },      
+      { id:"contens-propo-solution", label:"ソリューション", leaves:["課題背景","課題","解決策","改善・効果"] },
+      { id:"contens-propo-compe", label:"競合比較", leaves:["競合比較","選ばれる理由"] },
+      { id:"contens-propo-results", label:"実績", leaves:["導入実績","導入事例"] },
+      { id:"contens-propo-plan", label:"プラン", leaves:["プラン","料金表"] }
+    ]}, 
+    { id:"contens-ir", label:"IR", children:[
+      { id:"contens-ir-common", label:"IR全般", leaves:["事業計画","成長戦略"] },
+      { id:"contens-ir-kessan", label:"決算資料", leaves:["エグゼクティブサマリー","市場環境","売上推移","業績予想"] },
+      { id:"contens-ir-strategy", label:"中期経営計画", leaves:["現状分析","戦略","投資計画","TAM/SAM/SOM"] },
+      { id:"contens-ir-integrated", label:"成長可能性", leaves:["収益構造","競争優位性","リスク"] },
+      { id:"contens-ir-integrated", label:"統合報告書", leaves:["価値創造モデル","CSR","ESG","財務"] }
+    ]},   
+    { id:"contens-pitch", label:"採用ピッチ", children:[
+  　  { id:"contens-pitch-team", label:"メンバー", leaves:["組織図","メンバー紹介"] },
+  　  { id:"contens-pitch-culture", label:"環境", leaves:["カルチャー","一日の流れ"] },
+  　  { id:"contens-pitch-system", label:"制度", leaves:["採用フロー","待遇","評価・キャリアパス"] }
+    ]},   
   ]},
-  { id:"pitch", label:"Pitch Deck", children:[
-    { id:"pitch-problem", label:"Problem / Solution", leaves:["課題定義","ソリューション概要","競合比較"] },
-    { id:"pitch-market", label:"Market", leaves:["TAM/SAM/SOM","市場成長率","ターゲット顧客"] },
-    { id:"pitch-team", label:"Team", leaves:["創業者プロフィール","組織図","アドバイザー"] }
+
+  { id:"design", label:"図解", children:[
+    { id:"design-diagram", label:"情報図解", children:[
+  　  { id:"design-diagram-1", label:"列挙", leaves:["横列挙","縦列挙","パネル","トライアングル","円","その他グループ"] },
+  　  { id:"design-diagram-2", label:"背景", leaves:["横背景","縦背景","その他背景"] },
+  　  { id:"design-diagram-3", label:"合流", leaves:["横合流","縦合流","その他合流"] },
+  　  { id:"design-diagram-4", label:"分散", leaves:["横分散","縦分散","放射","その他分散"] },
+  　  { id:"design-diagram-5", label:"変化・変移", leaves:["横変化","縦変化","上昇","下降","その他変化"] },
+  　  { id:"design-diagram-6", label:"対比", leaves:["横対比","縦対比","表対比","その他対比"] },
+  　  { id:"design-diagram-7", label:"フロー", leaves:["横フロー","縦フロー","ステップ","その他フロー"] },
+  　  { id:"design-diagram-8", label:"循環", leaves:["サイクル","その他循環"] },
+  　  { id:"design-diagram-9", label:"構成", leaves:["ツリー","ピラミッド","バズル・ハニカム","レイヤー","その他構成"] },
+  　  { id:"design-diagram-10", label:"分布", leaves:["ベン図","マトリクス","規模分析","その他分布"] },       
+  　  { id:"design-diagram-11", label:"その他図解", leaves:["関係相関図","マップ","数式","その他図解"] },       
+    ]},   
+    { id:"design-chart", label:"グラフ", leaves:["折れ線グラフ","縦棒グラフ","横棒グラフ","ウォーターフォール","円グラフ","アイコンチャート","散布図","サンキー図","ヒートマップ","その他グラフ"] },
+    { id:"design-table", label:"表", leaves:["数字表","比較表","ガントチャート","その他表"] },
+    { id:"design-list", label:"箇条書き", leaves:["横箇条書き","縦箇条書き","その他箇条書き"] }
   ]},
-  { id:"design", label:"デザイン表現", children:[
-    { id:"design-chart", label:"チャート・グラフ", leaves:["折れ線グラフ","棒グラフ","サンキー図","ヒートマップ"] },
-    { id:"design-layout", label:"レイアウト", leaves:["大見出し型","左右分割","グリッド型","フルスクリーン"] },
-    { id:"design-color", label:"カラー", leaves:["モノクロ","ダーク背景","グラデーション","パステル"] }
-  ]},
-  { id:"company", label:"業種", children:[
-    { id:"company-tech", label:"テック", leaves:["SaaS","AI/ML","フィンテック","ヘルステック"] },
-    { id:"company-mfg", label:"製造・素材", leaves:["自動車","化学","精密機器"] },
-    { id:"company-consumer", label:"消費財・小売", leaves:["D2C","EC","食品・飲料"] }
+  
+  { id:"color", label:"色", children:[
+    { id:"color-hot", label:"暖色", leaves:["赤","オレンジ","ピンク","黄色"] },
+    { id:"color-cool", label:"寒色", leaves:["緑","青","紺","紫"] },
+    { id:"color-mono", label:"モノクロ", leaves:["グレー","黒"] },
+    { id:"color-multi", label:"マルチ", leaves:["マルチカラー","その他の色" }
   ]}
 ];
 
 let SLIDES = [
-  { id:1, company:"Acme Corporation", url:"https://example.com/acme-ir", image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", tags:["売上推移","市場予測","折れ線グラフ","SaaS"] },
-  { id:2, company:"Bright Ventures", url:"https://example.com/bright", image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80", tags:["課題定義","TAM/SAM/SOM","ダーク背景","AI/ML"] },
-  { id:3, company:"Green Field Foods", url:"https://example.com/greenfield", image:"https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=600&q=80", tags:["サステナビリティ","ESGデータ","グリッド型","食品・飲料"] },
-  { id:4, company:"Nova Motors", url:"https://example.com/nova", image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", tags:["成長戦略","KPI","棒グラフ","自動車"] }
+  { id:1, company:"Acme Corporation", url:"https://example.com/acme-ir", image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", tags:["事業計画","横列挙","ガントチャート","紫"] },
+  { id:2, company:"Bright Ventures", url:"https://example.com/bright", image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80", tags:["課題背景","縦背景","縦箇条書き","オレンジ"] },
+  { id:3, company:"Green Field Foods", url:"https://example.com/greenfield", image:"https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=600&q=80", tags:["価値創造モデル","横フロー","サイクル","マルチカラー"] },
+  { id:4, company:"Nova Motors", url:"https://example.com/nova", image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", tags:["会社概要","その他表","黒"] }
 ];
 
 let nextId = Math.max(0, ...SLIDES.map(s=>s.id)) + 1;
