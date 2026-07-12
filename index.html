@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ja"><head>
+<html lang="ja">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slide Gallery</title>
@@ -38,7 +39,7 @@
   .tree-category { margin-bottom: 4px; }
   .tree-cat-label {
     display: flex; align-items: center; gap: 6px; padding: 7px 20px;
-    font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
     color: var(--muted); cursor: pointer; user-select: none; transition: color .15s;
   }
   .tree-cat-label:hover { color: var(--text); }
@@ -115,10 +116,10 @@
   #modal-bg.open { display: flex; }
   #modal {
     background: var(--surface); border-radius: 12px; max-width: 1140px; width: 100%;
-    max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 280px; position: relative;
+    max-height: 94vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 300px; position: relative;
   }
   #modal-img-wrap { background: #000; border-radius: 12px 0 0 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-  #modal-img { width: 100%; height: 100%; object-fit: contain; display: block; max-height: 70vh; }
+  #modal-img { width: 100%; height: 100%; object-fit: contain; display: block; max-height: 86vh; }
   #modal-info { padding: 28px 24px; display: flex; flex-direction: column; gap: 16px; border-left: 1px solid var(--border); }
   #modal-company { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
   #modal-url a {
@@ -230,7 +231,7 @@
   .export-box p { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.7; }
 </style>
 </head>
-<body style="overflow: hidden;">
+<body>
 
 <div id="app">
   <nav id="sidebar">
@@ -238,7 +239,7 @@
       <div class="sidebar-logo">Slide Gallery<span>Private Collection</span></div>
     </div>
     <button class="show-all-btn" onclick="filterByTag(null)">すべて表示</button>
-    <div class="tree" id="tree"><div class="tree-category"><div class="tree-cat-label"><svg class="tree-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>内容</div><div class="tree-sub"><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>共通</div><div class="tree-leaves"><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>定型</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="表紙">表紙</div><div class="tree-leaf" data-tag="目次">目次</div><div class="tree-leaf" data-tag="はじめに">はじめに</div><div class="tree-leaf" data-tag="中表紙">中表紙</div><div class="tree-leaf" data-tag="おわりに">おわりに</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>会社紹介</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="会社概要">会社概要</div><div class="tree-leaf" data-tag="沿革">沿革</div><div class="tree-leaf" data-tag="役員">役員</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>経営理念</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="VMM">VMM</div><div class="tree-leaf" data-tag="指針">指針</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>事業概要</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="概念図">概念図</div><div class="tree-leaf" data-tag="事業構想イメージ">事業構想イメージ</div><div class="tree-leaf" data-tag="ビジネスモデル">ビジネスモデル</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>スケジュール</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="ロードマップ">ロードマップ</div><div class="tree-leaf" data-tag="ガントチャート">ガントチャート</div><div class="tree-leaf" data-tag="ステップ">ステップ</div><div class="tree-leaf" data-tag="フロー">フロー</div></div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>提案</div><div class="tree-leaves"><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>サービス</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="サービス詳細">サービス詳細</div><div class="tree-leaf" data-tag="特徴・ポイント">特徴・ポイント</div><div class="tree-leaf" data-tag="お客様の声">お客様の声</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>ソリューション</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="課題背景">課題背景</div><div class="tree-leaf" data-tag="課題">課題</div><div class="tree-leaf" data-tag="解決策">解決策</div><div class="tree-leaf" data-tag="改善・効果">改善・効果</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>アピール</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="競合比較">競合比較</div><div class="tree-leaf" data-tag="選ばれる理由">選ばれる理由</div><div class="tree-leaf" data-tag="強み">強み</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>実績</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="導入実績">導入実績</div><div class="tree-leaf" data-tag="導入事例">導入事例</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>プラン</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="プラン">プラン</div><div class="tree-leaf" data-tag="料金表">料金表</div></div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>IR</div><div class="tree-leaves"><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>IR全般</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="事業計画">事業計画</div><div class="tree-leaf" data-tag="成長戦略">成長戦略</div><div class="tree-leaf" data-tag="ポートフォリオ">ポートフォリオ</div><div class="tree-leaf" data-tag="その他IR資料">その他IR資料</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>決算資料</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="エグゼクティブサマリ">エグゼクティブサマリ</div><div class="tree-leaf" data-tag="市場環境">市場環境</div><div class="tree-leaf" data-tag="業績推移・分析">業績推移・分析</div><div class="tree-leaf" data-tag="業績予想">業績予想</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>中期経営計画</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="現状分析">現状分析</div><div class="tree-leaf" data-tag="戦略">戦略</div><div class="tree-leaf" data-tag="投資計画">投資計画</div><div class="tree-leaf" data-tag="TAM/SAM/SOM">TAM/SAM/SOM</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>成長可能性</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="収益構造">収益構造</div><div class="tree-leaf" data-tag="競争優位性">競争優位性</div><div class="tree-leaf" data-tag="リスク">リスク</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>統合報告書</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="価値創造プロセス">価値創造プロセス</div><div class="tree-leaf" data-tag="マテリアリティ">マテリアリティ</div><div class="tree-leaf" data-tag="CSR">CSR</div><div class="tree-leaf" data-tag="ESG">ESG</div><div class="tree-leaf" data-tag="財務">財務</div></div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>採用ピッチ</div><div class="tree-leaves"><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>メンバー</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="組織図">組織図</div><div class="tree-leaf" data-tag="メンバー紹介">メンバー紹介</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>環境</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="カルチャー">カルチャー</div><div class="tree-leaf" data-tag="一日の流れ">一日の流れ</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>制度</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="採用フロー">採用フロー</div><div class="tree-leaf" data-tag="待遇">待遇</div><div class="tree-leaf" data-tag="評価・キャリアパス">評価・キャリアパス</div></div></div></div></div><div class="tree-category"><div class="tree-cat-label"><svg class="tree-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>図解</div><div class="tree-sub"><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>情報図解</div><div class="tree-leaves"><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>列挙</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="横列挙">横列挙</div><div class="tree-leaf" data-tag="縦列挙">縦列挙</div><div class="tree-leaf" data-tag="パネル">パネル</div><div class="tree-leaf" data-tag="トライアングル">トライアングル</div><div class="tree-leaf" data-tag="円">円</div><div class="tree-leaf" data-tag="その他グループ">その他グループ</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>背景</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="横背景">横背景</div><div class="tree-leaf" data-tag="縦背景">縦背景</div><div class="tree-leaf" data-tag="その他背景">その他背景</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>合流</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="横合流">横合流</div><div class="tree-leaf" data-tag="縦合流">縦合流</div><div class="tree-leaf" data-tag="その他合流">その他合流</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>分散</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="横分散">横分散</div><div class="tree-leaf" data-tag="縦分散">縦分散</div><div class="tree-leaf" data-tag="放射">放射</div><div class="tree-leaf" data-tag="その他分散">その他分散</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>変化・変移</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="横変化">横変化</div><div class="tree-leaf" data-tag="縦変化">縦変化</div><div class="tree-leaf" data-tag="上昇">上昇</div><div class="tree-leaf" data-tag="下降">下降</div><div class="tree-leaf" data-tag="その他変化">その他変化</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>対比</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="横対比">横対比</div><div class="tree-leaf" data-tag="縦対比">縦対比</div><div class="tree-leaf" data-tag="表対比">表対比</div><div class="tree-leaf" data-tag="その他対比">その他対比</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>フロー</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="横フロー">横フロー</div><div class="tree-leaf" data-tag="縦フロー">縦フロー</div><div class="tree-leaf" data-tag="ステップ">ステップ</div><div class="tree-leaf" data-tag="その他フロー">その他フロー</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>循環</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="サイクル">サイクル</div><div class="tree-leaf" data-tag="その他循環">その他循環</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>構成</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="ツリー">ツリー</div><div class="tree-leaf" data-tag="ピラミッド">ピラミッド</div><div class="tree-leaf" data-tag="バズル・ハニカム">バズル・ハニカム</div><div class="tree-leaf" data-tag="レイヤー">レイヤー</div><div class="tree-leaf" data-tag="その他構成">その他構成</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>分布</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="ベン図">ベン図</div><div class="tree-leaf" data-tag="マトリクス">マトリクス</div><div class="tree-leaf" data-tag="規模分析">規模分析</div><div class="tree-leaf" data-tag="その他分布">その他分布</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>その他</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="関係相関図">関係相関図</div><div class="tree-leaf" data-tag="マップ">マップ</div><div class="tree-leaf" data-tag="数式">数式</div><div class="tree-leaf" data-tag="その他図解">その他図解</div></div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>グラフ</div><div class="tree-leaves"><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>折れ線</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="折れ線グラフ">折れ線グラフ</div><div class="tree-leaf" data-tag="面グラフ">面グラフ</div><div class="tree-leaf" data-tag="100％面グラフ">100％面グラフ</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>棒</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="縦棒グラフ">縦棒グラフ</div><div class="tree-leaf" data-tag="横棒グラフ">横棒グラフ</div><div class="tree-leaf" data-tag="積み上げ棒グラフ">積み上げ棒グラフ</div><div class="tree-leaf" data-tag="ウォーターフォール">ウォーターフォール</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>円</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="円グラフ">円グラフ</div><div class="tree-leaf" data-tag="ドーナツ">ドーナツ</div><div class="tree-leaf" data-tag="サンバースト図">サンバースト図</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>散布図</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="散布図">散布図</div><div class="tree-leaf" data-tag="ヒートマップ">ヒートマップ</div></div><div class="tree-grandchild-label"><svg class="tree-grandchild-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>その他</div><div class="tree-grandchild-leaves"><div class="tree-leaf" data-tag="アイコンチャート">アイコンチャート</div><div class="tree-leaf" data-tag="その他グラフ">その他グラフ</div></div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>表</div><div class="tree-leaves"><div class="tree-leaf" data-tag="数字表">数字表</div><div class="tree-leaf" data-tag="比較表">比較表</div><div class="tree-leaf" data-tag="ガントチャート">ガントチャート</div><div class="tree-leaf" data-tag="その他表">その他表</div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>箇条書き</div><div class="tree-leaves"><div class="tree-leaf" data-tag="横箇条書き">横箇条書き</div><div class="tree-leaf" data-tag="縦箇条書き">縦箇条書き</div><div class="tree-leaf" data-tag="その他箇条書き">その他箇条書き</div></div></div></div><div class="tree-category"><div class="tree-cat-label"><svg class="tree-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>色</div><div class="tree-sub"><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>暖色</div><div class="tree-leaves"><div class="tree-leaf" data-tag="赤">赤</div><div class="tree-leaf" data-tag="オレンジ">オレンジ</div><div class="tree-leaf" data-tag="ピンク">ピンク</div><div class="tree-leaf" data-tag="黄色">黄色</div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>寒色</div><div class="tree-leaves"><div class="tree-leaf" data-tag="緑">緑</div><div class="tree-leaf" data-tag="青">青</div><div class="tree-leaf" data-tag="紺">紺</div><div class="tree-leaf" data-tag="紫">紫</div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>モノクロ</div><div class="tree-leaves"><div class="tree-leaf" data-tag="グレー">グレー</div><div class="tree-leaf" data-tag="黒">黒</div></div><div class="tree-parent-label"><svg class="tree-parent-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"></path></svg>マルチ</div><div class="tree-leaves"><div class="tree-leaf" data-tag="マルチカラー">マルチカラー</div><div class="tree-leaf" data-tag="その他の色">その他の色</div></div></div></div></div>
+    <div class="tree" id="tree"></div>
     <button class="sidebar-admin-btn" onclick="openAdmin('add')">⚙ 管理パネル</button>
   </nav>
 
@@ -246,34 +247,132 @@
     <div class="main-header">
       <div>
         <div class="main-title" id="main-title">すべて</div>
-        <div class="main-count" id="main-count">10 件</div>
+        <div class="main-count" id="main-count"></div>
       </div>
       <div class="search-wrap">
-        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input id="search" type="text" placeholder="企業名・タグで検索…">
       </div>
     </div>
-    <div id="grid"><div class="card">
-      <img class="card-thumb" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&amp;q=80" alt="Acme Corporation" loading="lazy">
-      <div class="card-body">
-        <div class="card-company">Acme Corporation</div>
-        <div class="card-tags"><span class="tag" data-tag="事業計画">事業計画</span><span class="tag" data-tag="横列挙">横列挙</span><span class="tag" data-tag="ガントチャート">ガントチャート</span><span class="tag" data-tag="紫">紫</span></div>
-      </div></div><div class="card">
-      <img class="card-thumb" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&amp;q=80" alt="Bright Ventures" loading="lazy">
-      <div class="card-body">
-        <div class="card-company">Bright Ventures</div>
-        <div class="card-tags"><span class="tag" data-tag="課題背景">課題背景</span><span class="tag" data-tag="縦背景">縦背景</span><span class="tag" data-tag="縦箇条書き">縦箇条書き</span><span class="tag" data-tag="オレンジ">オレンジ</span></div>
-      </div></div><div class="card">
-      <img class="card-thumb" src="https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=600&amp;q=80" alt="Green Field Foods" loading="lazy">
-      <div class="card-body">
-        <div class="card-company">Green Field Foods</div>
-        <div class="card-tags"><span class="tag" data-tag="価値創造モデル">価値創造モデル</span><span class="tag" data-tag="横フロー">横フロー</span><span class="tag" data-tag="サイクル">サイクル</span><span class="tag" data-tag="マルチカラー">マルチカラー</span></div>
-      </div></div><div class="card">
-      <img class="card-thumb" src="https://drive.google.com/file/d/1QM2RrSgRVtU1HkZB4alJKHJ4lbkQcNxw/view?usp=drive_link?w=600&amp;q=80" alt="Nova Motors" loading="lazy">
-      <div class="card-body">
-        <div class="card-company">Nova Motors</div>
-        <div class="card-tags"><span class="tag" data-tag="会社概要">会社概要</span><span class="tag" data-tag="その他表">その他表</span><span class="tag" data-tag="黒">黒</span></div>
-      </div></div>;
+    <div id="grid"></div>
+  </div>
+</div>
+
+<div id="modal-bg">
+  <div id="modal">
+    <div id="modal-img-wrap"><img id="modal-img" src="" alt=""></div>
+    <div id="modal-info">
+      <button id="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-company"></div>
+      <div id="modal-url"></div>
+      <div>
+        <div class="modal-section-label">タグ</div>
+        <div id="modal-tags"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="admin-bg">
+  <div id="admin-panel">
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+    <h2>管理パネル</h2>
+    <div class="admin-tabs">
+      <div class="admin-tab active" data-tab="add" onclick="switchAdminTab('add')">追加 / 編集</div>
+      <div class="admin-tab" data-tab="list" onclick="switchAdminTab('list')">一覧管理</div>
+      <div class="admin-tab" data-tab="export" onclick="switchAdminTab('export')">書き出し</div>
+    </div>
+
+    <div class="admin-tab-content active" id="tab-add">
+      <input type="hidden" id="edit-id">
+
+      <div class="field-group">
+        <label class="field-label">企業名</label>
+        <input class="field-input" id="f-company" type="text" placeholder="例：Acme Corporation">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">リンク先URL</label>
+        <input class="field-input" id="f-url" type="text" placeholder="https://example.com">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">スライド画像</label>
+        <div class="img-input-row">
+          <button class="img-toggle-btn active" id="img-mode-url" onclick="setImgMode('url')">URL入力</button>
+          <button class="img-toggle-btn" id="img-mode-file" onclick="setImgMode('file')">ファイルD&D</button>
+        </div>
+        <input class="field-input" id="f-image-url" type="text" placeholder="https://i.imgur.com/xxxxx.jpg">
+        <div class="dropzone" id="dropzone" style="display:none;">
+          画像をドラッグ＆ドロップ、またはクリックして選択
+          <input type="file" id="file-input" accept="image/*">
+        </div>
+        <img class="img-preview" id="img-preview">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">タグ（最下層カテゴリから選択）</label>
+        <div class="tag-builder" id="tag-builder"></div>
+        <div class="tag-picker" id="tag-picker"></div>
+      </div>
+
+      <div class="admin-actions">
+        <button class="btn btn-primary" onclick="saveSlide()">保存する</button>
+        <button class="btn btn-secondary" onclick="resetForm()">クリア</button>
+        <span class="form-msg" id="form-msg"></span>
+      </div>
+    </div>
+
+    <div class="admin-tab-content" id="tab-list">
+      <div id="admin-slide-list"></div>
+    </div>
+
+    <div class="admin-tab-content" id="tab-export">
+      <div class="export-box">
+        <p>現在のスライドデータをすべて含んだ、単体で動くHTMLファイルをダウンロードします。<br>ダウンロード後、GitHubの <code>slide-gallery.html</code> を置き換えてアップロードしてください。</p>
+        <button class="btn btn-primary" onclick="exportHTML()">完成版HTMLをダウンロード</button>
+      </div>
+      <div class="export-box">
+        <p>データだけをJSON形式でバックアップしたい場合はこちら（任意）。</p>
+        <button class="btn btn-secondary" onclick="exportJSON()">JSONをダウンロード</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TREE = [
+  { id:"ir", label:"IR", children:[
+    { id:"ir-kessan", label:"決算資料", children:[
+      { id:"ir-kessan-sales", label:"売上推移", leaves:["前年比","セグメント別","地域別"] },
+      { id:"ir-kessan-market", label:"市場予測", leaves:["国内市場","海外市場","成長率予測"] }
+    ]},
+    { id:"ir-integrated", label:"統合報告書", leaves:["サステナビリティ","マテリアリティ","ESGデータ"] },
+    { id:"ir-strategy", label:"中期経営計画", leaves:["成長戦略","KPI","投資計画"] }
+  ]},
+  { id:"pitch", label:"Pitch Deck", children:[
+    { id:"pitch-problem", label:"Problem / Solution", leaves:["課題定義","ソリューション概要","競合比較"] },
+    { id:"pitch-market", label:"Market", leaves:["TAM/SAM/SOM","市場成長率","ターゲット顧客"] },
+    { id:"pitch-team", label:"Team", leaves:["創業者プロフィール","組織図","アドバイザー"] }
+  ]},
+  { id:"design", label:"デザイン表現", children:[
+    { id:"design-chart", label:"チャート・グラフ", leaves:["折れ線グラフ","棒グラフ","サンキー図","ヒートマップ"] },
+    { id:"design-layout", label:"レイアウト", leaves:["大見出し型","左右分割","グリッド型","フルスクリーン"] },
+    { id:"design-color", label:"カラー", leaves:["モノクロ","ダーク背景","グラデーション","パステル"] }
+  ]},
+  { id:"company", label:"業種", children:[
+    { id:"company-tech", label:"テック", leaves:["SaaS","AI/ML","フィンテック","ヘルステック"] },
+    { id:"company-mfg", label:"製造・素材", leaves:["自動車","化学","精密機器"] },
+    { id:"company-consumer", label:"消費財・小売", leaves:["D2C","EC","食品・飲料"] }
+  ]}
+];
+
+let SLIDES = [
+  { id:1, company:"Acme Corporation", url:"https://example.com/acme-ir", image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", tags:["売上推移","市場予測","折れ線グラフ","SaaS"] },
+  { id:2, company:"Bright Ventures", url:"https://example.com/bright", image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80", tags:["課題定義","TAM/SAM/SOM","ダーク背景","AI/ML"] },
+  { id:3, company:"Green Field Foods", url:"https://example.com/greenfield", image:"https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=600&q=80", tags:["サステナビリティ","ESGデータ","グリッド型","食品・飲料"] },
+  { id:4, company:"Nova Motors", url:"https://example.com/nova", image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", tags:["成長戦略","KPI","棒グラフ","自動車"] }
+];
 
 let nextId = Math.max(0, ...SLIDES.map(s=>s.id)) + 1;
 
@@ -671,6 +770,5 @@ buildTree();
 renderGrid();
 renderTagBuilder();
 </script>
-
-
-</body></html>
+</body>
+</html>
