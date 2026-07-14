@@ -347,8 +347,8 @@ const TREE = [
       { id:"contens-general-intro", label:"定型", leaves:["表紙","目次","はじめに","中表紙","おわりに"] },
       { id:"contens-general-company", label:"会社紹介", leaves:["会社概要","沿革","役員"] },
       { id:"contens-general-credo", label:"経営理念", leaves:["VMM","指針"] },
-      { id:"contens-general-business", label:"事業概要", leaves:["概念図","事業構想イメージ","ビジネスモデル"] },
-      { id:"contens-general-schedule", label:"スケジュール", leaves:["ロードマップ","ガントチャート","ステップ","フロー"] }
+      { id:"contens-general-business", label:"事業", leaves:["事業内容","概念図","事業構想イメージ","ビジネスモデル"] },
+      { id:"contens-general-schedule", label:"スケジュール", leaves:["ロードマップ","ガントチャート","タイムライン"] }
     ]},     
     { id:"contens-propo", label:"提案", children:[
       { id:"contens-propo-service", label:"サービス", leaves:["サービス詳細","特徴・ポイント","お客様の声"] },      
@@ -358,7 +358,7 @@ const TREE = [
       { id:"contens-propo-plan", label:"プラン", leaves:["プラン","料金表"] }
     ]}, 
     { id:"contens-ir", label:"IR", children:[
-      { id:"contens-ir-common", label:"IR全般", leaves:["事業計画","成長戦略","ポートフォリオ","その他IR資料"] },
+      { id:"contens-ir-common", label:"IR全般", leaves:["事業計画","成長戦略","ポートフォリオ","領域","その他IR資料"] },
       { id:"contens-ir-kessan", label:"決算資料", leaves:["エグゼクティブサマリ","市場環境","業績推移・分析","業績予想"] },
       { id:"contens-ir-strategy", label:"中期経営計画", leaves:["現状分析","戦略","投資計画","TAM/SAM/SOM"] },
       { id:"contens-ir-integrated", label:"成長可能性", leaves:["収益構造","競争優位性","リスク"] },
@@ -405,10 +405,11 @@ const TREE = [
 ];
 
 let SLIDES = [
-  { id:1, company:"4℃(ヨンドシー)", url:"https://example.com/acme-ir", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/4__%E4%BE%A1%E5%80%A4%E5%89%B5%E9%80%A0%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9_bf86gf.jpg", tags:["事業計画","横列挙","ガントチャート","紫"] },
-  { id:2, company:"Bright Ventures", url:"https://example.com/bright", image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80", tags:["課題背景","縦背景","縦箇条書き","オレンジ"] },
-  { id:3, company:"Green Field Foods", url:"https://example.com/greenfield", image:"https://images.unsplash.com/photo-1543286386-2e659306cd6c?w=600&q=80", tags:["価値創造モデル","横フロー","サイクル","マルチカラー"] },
-  { id:4, company:"Nova Motors", url:"https://example.com/nova", image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", tags:["会社概要","その他表","黒"] }
+  { id:1, company:"4℃(ヨンドシー)", url:"https://yondoshi.co.jp/sustainability/value-creation-story/", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/4__%E4%BE%A1%E5%80%A4%E5%89%B5%E9%80%A0%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9_bf86gf.jpg
+", tags:["価値創造プロセス","横列挙","縦列挙","横フロー","関係相関図","青"] },
+  { id:2, company:"ABEJA(アベジャ)", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/ABEJA_%E4%BA%8B%E6%A5%AD%E3%81%AE%E7%8A%B6%E6%B3%81_kdbjoy.jpg", tags:["事業内容","横列挙","縦変化","紫","ピンク"] },
+  { id:3, company:"ABEJA(アベジャ)", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA_%E6%88%90%E9%95%B7%E6%88%A6%E7%95%A5_kap8lp.jpg", tags:["成長戦略","領域","円","サイクル","紫","ピンク"] },
+  { id:4, company:"ABEJA(アベジャ)", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA%E6%B2%BF%E9%9D%A9_vemr4x.jpg", tags:["沿革","面グラフ","タイムライン","紫","ピンク"] }
 ];
 
 let nextId = Math.max(0, ...SLIDES.map(s=>s.id)) + 1;
