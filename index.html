@@ -358,7 +358,7 @@ const TREE = [
       { id:"contens-propo-plan", label:"プラン", leaves:["プラン","料金表"] }
     ]}, 
     { id:"contens-ir", label:"IR", children:[
-      { id:"contens-ir-common", label:"IR全般", leaves:["事業計画","成長戦略","ポートフォリオ","領域","その他IR資料"] },
+      { id:"contens-ir-common", label:"IR全般", leaves:["事業計画","成長戦略","財務諸表","領域","KPI","その他IR資料"] },
       { id:"contens-ir-kessan", label:"決算資料", leaves:["エグゼクティブサマリ","市場環境","業績推移・分析","業績予想"] },
       { id:"contens-ir-strategy", label:"中期経営計画", leaves:["現状分析","戦略","投資計画","TAM/SAM/SOM"] },
       { id:"contens-ir-integrated", label:"成長可能性", leaves:["収益構造","競争優位性","リスク"] },
@@ -405,10 +405,12 @@ const TREE = [
 ];
 
 let SLIDES = [
-  { id:1, company:"4℃(ヨンドシー)", url:"https://yondoshi.co.jp/sustainability/value-creation-story/", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/4__%E4%BE%A1%E5%80%A4%E5%89%B5%E9%80%A0%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9_bf86gf.jpg", tags:["価値創造プロセス","横列挙","縦列挙","横フロー","関係相関図","青"] },
-  { id:2, company:"ABEJA(アベジャ)", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/ABEJA_%E4%BA%8B%E6%A5%AD%E3%81%AE%E7%8A%B6%E6%B3%81_kdbjoy.jpg", tags:["事業内容","横列挙","縦変化","紫","ピンク"] },
-  { id:3, company:"ABEJA(アベジャ)", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA_%E6%88%90%E9%95%B7%E6%88%A6%E7%95%A5_kap8lp.jpg", tags:["成長戦略","領域","円","サイクル","紫","ピンク"] },
-  { id:4, company:"ABEJA(アベジャ)", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA%E6%B2%BF%E9%9D%A9_vemr4x.jpg", tags:["沿革","面グラフ","タイムライン","紫","ピンク"] }
+  { id:1, company:"4℃（ヨンドシー）", url:"https://yondoshi.co.jp/sustainability/value-creation-story/", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/4__%E4%BE%A1%E5%80%A4%E5%89%B5%E9%80%A0%E3%83%97%E3%83%AD%E3%82%BB%E3%82%B9_bf86gf.jpg", tags:["価値創造プロセス","横列挙","縦列挙","横フロー","関係相関図","青"] },
+  { id:2, company:"ABEJA（アベジャ）", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/ABEJA_%E4%BA%8B%E6%A5%AD%E3%81%AE%E7%8A%B6%E6%B3%81_kdbjoy.jpg", tags:["事業内容","横列挙","縦変化","紫","ピンク"] },
+  { id:3, company:"ABEJA（アベジャ）", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA_%E6%88%90%E9%95%B7%E6%88%A6%E7%95%A5_kap8lp.jpg", tags:["成長戦略","領域","円","サイクル","紫","ピンク"] },
+  { id:4, company:"ABEJA（アベジャ）", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA%E6%B2%BF%E9%9D%A9_vemr4x.jpg", tags:["沿革","面グラフ","タイムライン","紫","ピンク"] },
+  { id:5, company:"AlbaLink（アルバリンク）", url:"https://ssl4.eir-parts.net/doc/5537/tdnet/2731013/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037979/AlbaLink_KPI%E3%83%84%E3%83%AA%E3%83%BC_qjzaiz.jpg", tags:["KPI","ツリー","数式","青"] },
+  { id:5, company:"AlbaLink（アルバリンク）", url:"https://ssl4.eir-parts.net/doc/5537/tdnet/2731013/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/AlbaLink_%E5%A3%B2%E4%B8%8A%E8%B2%BB%E7%94%A8%E3%81%AE%E5%9B%BA%E5%A4%89%E5%88%86%E8%A7%A3_te7ymw.jpg", tags:["財務諸表","ウォーターフォール","数字表","青"] }
 ];
 
 let nextId = Math.max(0, ...SLIDES.map(s=>s.id)) + 1;
