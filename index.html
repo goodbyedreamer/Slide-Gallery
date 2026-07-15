@@ -347,7 +347,7 @@ const TREE = [
       { id:"contens-general-intro", label:"定型", leaves:["表紙","目次","はじめに","中表紙","おわりに"] },
       { id:"contens-general-company", label:"会社紹介", leaves:["会社概要","沿革","役員"] },
       { id:"contens-general-credo", label:"経営理念", leaves:["VMM","指針"] },
-      { id:"contens-general-business", label:"事業", leaves:["事業内容","概念図","事業構想イメージ","ビジネスモデル"] },
+      { id:"contens-general-business", label:"事業", leaves:["事業内容","概念図","事業構想イメージ","ビジネスモデル","ファネル"] },
       { id:"contens-general-schedule", label:"スケジュール", leaves:["ロードマップ","ガントチャート","タイムライン"] }
     ]},     
     { id:"contens-propo", label:"提案", children:[
@@ -358,8 +358,8 @@ const TREE = [
       { id:"contens-propo-plan", label:"プラン", leaves:["プラン","料金表"] }
     ]}, 
     { id:"contens-ir", label:"IR", children:[
-      { id:"contens-ir-common", label:"IR全般", leaves:["事業計画","成長戦略","財務諸表","領域","KPI","その他IR資料"] },
-      { id:"contens-ir-kessan", label:"決算資料", leaves:["エグゼクティブサマリ","市場環境","業績推移・分析","業績予想"] },
+      { id:"contens-ir-common", label:"IR全般", leaves:["事業計画","ポートフォリオ","成長戦略","財務諸表","領域","KPI","その他IR資料"] },
+      { id:"contens-ir-kessan", label:"決算資料", leaves:["エグゼクティブサマリ","業績・売上高","市場環境","業績予想"] },
       { id:"contens-ir-strategy", label:"中期経営計画", leaves:["現状分析","戦略","投資計画","TAM/SAM/SOM"] },
       { id:"contens-ir-integrated", label:"成長可能性", leaves:["収益構造","競争優位性","リスク"] },
       { id:"contens-ir-integrated", label:"統合報告書", leaves:["価値創造プロセス","マテリアリティ","CSR","ESG","財務"] }
@@ -388,17 +388,17 @@ const TREE = [
     { id:"design-chart", label:"グラフ", children:[
   　  { id:"design-chart-1", label:"折れ線", leaves:["折れ線グラフ","面グラフ","100％面グラフ"] },   
   　  { id:"design-chart-2", label:"棒", leaves:["縦棒グラフ","横棒グラフ","積み上げ棒グラフ","ウォーターフォール"] },
-  　  { id:"design-chart-3", label:"円", leaves:["円グラフ","ドーナツ","サンバースト図"] },
+  　  { id:"design-chart-3", label:"円", leaves:["円グラフ","ドーナツ","サンバースト"] },
   　  { id:"design-chart-4", label:"散布図", leaves:["散布図","ヒートマップ"] },
   　  { id:"design-chart-5", label:"その他", leaves:["アイコンチャート","その他グラフ"] }
     ]},   
-    { id:"design-table", label:"表", leaves:["数字表","比較表","ガントチャート","その他表"] },
+    { id:"design-table", label:"表", leaves:["数字表","比較表","その他表"] },
     { id:"design-list", label:"箇条書き", leaves:["横箇条書き","縦箇条書き","その他箇条書き"] }
   ]},
   
   { id:"color", label:"色", children:[
     { id:"color-hot", label:"暖色", leaves:["赤","オレンジ","ピンク","黄色"] },
-    { id:"color-cool", label:"寒色", leaves:["緑","青","紺","紫"] },
+    { id:"color-cool", label:"寒色", leaves:["緑","青緑","青","紺","紫"] },
     { id:"color-mono", label:"モノクロ", leaves:["グレー","黒"] },
     { id:"color-multi", label:"マルチ", leaves:["マルチカラー","その他の色"] }
   ]}
@@ -410,7 +410,12 @@ let SLIDES = [
   { id:3, company:"ABEJA（アベジャ）", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA_%E6%88%90%E9%95%B7%E6%88%A6%E7%95%A5_kap8lp.jpg", tags:["成長戦略","領域","円","サイクル","紫","ピンク"] },
   { id:4, company:"ABEJA（アベジャ）", url:"https://ssl4.eir-parts.net/doc/5574/tdnet/2698143/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/ABEJA%E6%B2%BF%E9%9D%A9_vemr4x.jpg", tags:["沿革","面グラフ","タイムライン","紫","ピンク"] },
   { id:5, company:"AlbaLink（アルバリンク）", url:"https://ssl4.eir-parts.net/doc/5537/tdnet/2731013/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037979/AlbaLink_KPI%E3%83%84%E3%83%AA%E3%83%BC_qjzaiz.jpg", tags:["KPI","ツリー","数式","青"] },
-  { id:5, company:"AlbaLink（アルバリンク）", url:"https://ssl4.eir-parts.net/doc/5537/tdnet/2731013/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/AlbaLink_%E5%A3%B2%E4%B8%8A%E8%B2%BB%E7%94%A8%E3%81%AE%E5%9B%BA%E5%A4%89%E5%88%86%E8%A7%A3_te7ymw.jpg", tags:["財務諸表","ウォーターフォール","数字表","青"] }
+  { id:6, company:"AlbaLink（アルバリンク）", url:"https://ssl4.eir-parts.net/doc/5537/tdnet/2731013/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/AlbaLink_%E5%A3%B2%E4%B8%8A%E8%B2%BB%E7%94%A8%E3%81%AE%E5%9B%BA%E5%A4%89%E5%88%86%E8%A7%A3_te7ymw.jpg", tags:["財務諸表","ウォーターフォール","数字表","青"] },
+  { id:7, company:"Appier Group（エイピアグループ）", url:"https://ssl4.eir-parts.net/doc/4180/tdnet/2569687/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037975/AppierGroup_%E3%83%95%E3%82%A1%E3%83%8D%E3%83%AB_z0dwzg.jpg", tags:["ファネル","縦フロー","数字表","青"] },
+  { id:8, company:"Arent（アレント）", url:"https://ssl4.eir-parts.net/doc/5254/tdnet/2669039/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/Arent_%E3%83%97%E3%83%AD%E3%83%80%E3%82%AF%E3%83%88%E7%BE%A4%E6%88%A6%E7%95%A5_bxnatz.jpg", tags:["ポートフォリオ","サンバースト","青緑","オレンジ"] },
+  { id:9, company:"Arent（アレント）", url:"https://ssl4.eir-parts.net/doc/5254/tdnet/2692180/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037977/Arent_%E6%A5%AD%E7%95%8C_ze3sew.jpg", tags:["市場環境","サンバースト","青緑","オレンジ"] },
+  { id:10, company:"Arent（アレント）", url:"https://ssl4.eir-parts.net/doc/5254/tdnet/2669039/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037976/Arent_%E7%AB%B6%E4%BA%89%E5%84%AA%E4%BD%8D%E6%80%A7_ybgmeo.jpg", tags:["競争優位性","トライアングル","円","縦箇条書き","青緑","オレンジ"] },
+  { id:11, company:"BASEFOOD（ベースフード）", url:"https://ssl4.eir-parts.net/doc/2936/tdnet/2740816/00.pdf", image:"https://res.cloudinary.com/yazbkiyp/image/upload/v1784037978/BASEFOOD_%E3%83%81%E3%83%A3%E3%83%8D%E3%83%AB%E5%88%A5%E5%A3%B2%E4%B8%8A%E9%AB%98_bp6suv.jpg", tags:["業績・売上高","縦棒グラフ","折れ線グラフ","黄色"] }
 ];
 
 let nextId = Math.max(0, ...SLIDES.map(s=>s.id)) + 1;
